@@ -2,7 +2,7 @@
 ## Steps
 1. Understand the value of a good password...
 2. See init file and modify based off your users and needs.
-3. Create a conf file based off your resources. I like to use something like `http://pgconfigurator.cybertec.at` or `https://pgtune.leopard.in.ua/#/` (we will use this generated file for mounting later on).
+3. Create a conf file based off your resources. I like to use something like `http://pgconfigurator.cybertec.at` or `https://pgtune.leopard.in.ua/#/` (we will use this generated file for copying later on).
 4. Build the Dockerfile
 ```
 docker build -t pg .
@@ -21,12 +21,12 @@ Side notes:
 ```
 docker run \
   -d \
-  -p 5432:5432 \
+  -p 5433:5432 \
   -e POSTGRES_PASSWORD=password \
   --user "$(id -u)":"$(id -g)" \
-  -v /var/lib/postgresql/11/main:/var/lib/postgresql/data \
+  -v $PWD/data:/var/lib/postgresql/data \
   --name pg \
-  --memory="16g"
+  --memory="4g" \
   pg
 ```
 6. For extra security modify the `pg_hba.conf` file to only work on localhost connections. `pg_hba_local.conf` is a start, but may not work in a container due to a container having its own network compared to host.

@@ -27,6 +27,17 @@ BEGIN
 END
 $do$;
 
-GRANT CONNECT ON DATABASE db TO reader;
 GRANT USAGE ON SCHEMA public TO reader;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO reader;
+ALTER DEFAULT PRIVILEGES
+    IN SCHEMA public -- omit this line to make a default across all schemas
+    GRANT SELECT
+ON TABLES 
+TO reader;
+
+GRANT SELECT, USAGE ON ALL SEQUENCES IN SCHEMA public TO reader;
+ALTER DEFAULT PRIVILEGES
+    IN SCHEMA public -- omit this line to make a default across all schemas
+    GRANT SELECT, USAGE
+ON SEQUENCES 
+TO reader;
